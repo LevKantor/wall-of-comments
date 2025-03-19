@@ -6,6 +6,7 @@ const confirmDeleteBtn = document.getElementById('confirmDelete')
 const cancelDeleteBtn = document.getElementById('cancelDelete')
 
 let commentCounter = 0
+let commentToDelete = null
 
 const showCommentsAmount = () => {
     if (commentCounter > 0) {
@@ -53,6 +54,7 @@ commentForm.addEventListener('submit', function (event) {
     commentCounter++
 
     showCommentsAmount()
+    console.log(commentCounter)
 
     commentField.insertAdjacentHTML(
         'beforeend',
@@ -78,27 +80,25 @@ commentForm.addEventListener('submit', function (event) {
 
 commentField.addEventListener('click', function (event) {
     if (event.target.closest('.delete-btn')) {
-        const commentToDelete = event.target.closest('.js-div-comment')
+        commentToDelete = event.target.closest('.js-div-comment')
         modal.style.display = 'block'
-        confirmDeleteBtn.addEventListener('click', function () {
-            if (commentToDelete) {
-                commentToDelete.remove()
+    }
+})
 
-                commentCounter--
-                showCommentsAmount()
-            }
-            modal.style.display = 'none'
-        })
+confirmDeleteBtn.addEventListener('click', function () {
+    commentToDelete.remove()
+    commentCounter--
+    showCommentsAmount()
+    modal.style.display = 'none'
+})
 
-        cancelDeleteBtn.addEventListener('click', function () {
-            modal.style.display = 'none'
-        })
+cancelDeleteBtn.addEventListener('click', function () {
+    modal.style.display = 'none'
+})
 
-        window.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none'
-            }
-        })
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        modal.style.display = 'none'
     }
 })
 
