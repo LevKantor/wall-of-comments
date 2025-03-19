@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/index.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+            rel="stylesheet"
+        />
+        <title>Комментарии</title>
+    </head>
+    <body>
+        <div class="container">
+            <header class="title">
+                <h1 class="title__text">Комментарии к публикации</h1>
+            </header>
+            <main class="main">
+                <div class="comments-input">
+                    <form class="form" id="comment-form">
+                        <div class="form__comment">
+                            <textarea
+                                id="comment-body"
+                                class="form__input"
+                                placeholder="Написать комментарий..."
+                            ></textarea>
+                            <span id="body-error" class="body-error"
+                                >Комментарий должен быть 5 до 1000
+                                символов</span
+                            >
+                        </div>
+                        <div class="form__group">
+                            <input
+                                class="form__name"
+                                type="text"
+                                id="comment-name"
+                                placeholder="Ваше имя"
+                            />
+                            <span id="name-error" class="name-error"
+                                >Имя пользователя должно быть от 3 до 50
+                                символов</span
+                            >
+                            <button
+                                type="submit"
+                                id="comment-add"
+                                class="form__button"
+                            >
+                                Отправить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="comments-field" id="comments-field">
+                    <div class="comments-amount">Комментариев пока нет</div>
+                </div>
+                <div id="customModal" class="modal">
+                    <div class="modal-content">
+                        <p>Вы точно хотите удалить комментарий?</p>
+                        <button class="confirm-delete" id="confirmDelete">
+                            Да, удалить!
+                        </button>
+                        <button class="confirm-delete" id="cancelDelete">
+                            Отмена
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script type="module" src="./index.js"></script>
+    </body>
+</html>
