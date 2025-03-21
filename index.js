@@ -24,7 +24,10 @@ commentForm.addEventListener('submit', function (event) {
     let nameError = document.getElementById('name-error')
     let bodyError = document.getElementById('body-error')
 
-    if (username.length < 3 && commentBody.length < 5) {
+    if (
+        (username.length < 3 && commentBody.length < 5) ||
+        (username.length > 50 && commentBody.length > 1000)
+    ) {
         nameError.style.display = 'block'
         bodyError.style.display = 'block'
         return
@@ -33,14 +36,14 @@ commentForm.addEventListener('submit', function (event) {
         bodyError.style.display = 'none'
     }
 
-    if (username.length < 3) {
+    if (username.length < 3 || username.length > 50) {
         nameError.style.display = 'block'
         return
     } else {
         nameError.style.display = 'none'
     }
 
-    if (commentBody.length < 5) {
+    if (commentBody.length < 5 || commentBody.length > 1000) {
         bodyError.style.display = 'block'
         return
     } else {
@@ -54,7 +57,6 @@ commentForm.addEventListener('submit', function (event) {
     commentCounter++
 
     showCommentsAmount()
-    console.log(commentCounter)
 
     commentField.insertAdjacentHTML(
         'beforeend',
