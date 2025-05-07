@@ -3,14 +3,22 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node app.js",
+        "dev": "nodemon app.js"
     },
     "author": "Lev",
     "license": "ISC",
     "description": "",
     "type": "module",
     "dependencies": {
-        "nodemon": "^3.1.9",
+        "db": "^6.0.3",
+        "express": "^5.1.0",
+        "pg": "^8.15.6",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.37.7",
         "sweetalert2": "^11.17.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
     }
 }
