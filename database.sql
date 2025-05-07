@@ -5,8 +5,9 @@ create TABLE person(
 
 create TABLE comment(
     id SERIAL PRIMARY KEY,
+    username VARCHAR(255),
     content VARCHAR(255),
-    datetime TIMESTAMP,
-    user_id INTEGER,
-    FOREIGN KEY(user_id) REFERENCES person (id)
+    datetime TIMESTAMP
 );
+
+-- FOREIGN KEY(user_id) REFERENCES person (id)

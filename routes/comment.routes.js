@@ -3,6 +3,7 @@ import commentController from '../controller/comment.controller.js'
 const router = new Router()
 
 router.post('/comment', commentController.createComment)
-router.get('/comment', commentController.getCommentsByUser)
+router.get('/comments', commentController.getAllComments)
+router.delete('/comment/:id', commentController.deleteComment)
 
 export default router

@@ -1,24 +1,21 @@
-import Comment from '../models/comment.js'
 import commentService from '../service/comment.service.js'
 
 class CommentController {
     async createComment(req, res) {
-        const { content, userId } = req.body
-        const timestamp = Date.now()
-        const dateTime = new Date(timestamp)
-        const newComment = await commentService.createComment({
-            content,
-            dateTime,
-            userId,
-        })
+        const comment = req.body
+        const newComment = await commentService.createComment(comment)
         res.json(newComment)
     }
-    async getCommentsByUser(req, res) {
-        const { id } = req.query
-        const comments = await commentService.getCommentsByUser({
-            where: { id },
+    async getAllComments(req, res) {
+        const comments = await commentService.getAllComments({
+            order: [['datetime', 'DESC']],
         })
         res.json(comments)
+    }
+    async deleteComment(req, res) {
+        const id = req.params.id
+        const comment = await commentService.deleteComment({ where: { id } })
+        res.send('Comment was deleted')
     }
 }
 

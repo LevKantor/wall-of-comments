@@ -5,9 +5,13 @@ class CommentService {
         const createdComment = await Comment.create(comment)
         return createdComment
     }
-    async getCommentsByUser(condition) {
+    async getAllComments(condition) {
         const comments = await Comment.findAll(condition)
         return comments
+    }
+    async deleteComment(condition) {
+        const deletedComment = await Comment.destroy(condition)
+        return deletedComment
     }
 }
 

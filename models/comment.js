@@ -9,16 +9,16 @@ const comment = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        username: {
+            type: DataTypes.STRING,
+        },
         content: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        dateTime: {
+        datetime: {
             type: DataTypes.DATE,
             unique: true,
-        },
-        userId: {
-            type: DataTypes.INTEGER,
         },
     },
     {

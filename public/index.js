@@ -17,16 +17,45 @@ const showCommentsAmount = () => {
     }
 }
 
+const showComments = async () => {
+    const response = await fetch('http://127.0.0.1:8080/api/comments')
+    const comments = await response.json()
+
+    comments.forEach((comment) => {
+        let newComment = `<div class="js-div-comment" id="${comment.id}" >
+        <div class="js-div-name">
+        <p><strong>${comment.username}:</strong></p>
+        <div class="functions">
+        <button class="like-btn">
+        <img class="like-icon" src="./img/not-like.png" alt="like">
+        </button>
+        <button class="delete-btn" >
+        <img class="delete-btn_img"  src="./img/delete.png" alt="delete">
+        </button>
+        </div>
+        </div>
+        <div class="js-div-body">
+        <p>${comment.content}</p>
+        </div>
+        <p class="js-date"><em>${timeConverter(comment.datetime)}</em></p>
+        </div>`
+
+        commentField.insertAdjacentHTML('beforeend', newComment)
+    })
+}
+
+showComments()
+
 commentForm.addEventListener('submit', function (event) {
     event.preventDefault()
     let username = document.getElementById('comment-name').value
-    let commentBody = document.getElementById('comment-body').value
+    let content = document.getElementById('comment-body').value
     let nameError = document.getElementById('name-error')
     let bodyError = document.getElementById('body-error')
 
     if (
-        (username.length < 3 && commentBody.length < 5) ||
-        (username.length > 50 && commentBody.length > 1000)
+        (username.length < 3 && content.length < 5) ||
+        (username.length > 50 && content.length > 1000)
     ) {
         nameError.style.display = 'block'
         bodyError.style.display = 'block'
@@ -43,7 +72,7 @@ commentForm.addEventListener('submit', function (event) {
         nameError.style.display = 'none'
     }
 
-    if (commentBody.length < 5 || commentBody.length > 1000) {
+    if (content.length < 5 || content.length > 1000) {
         bodyError.style.display = 'block'
         return
     } else {
@@ -54,30 +83,18 @@ commentForm.addEventListener('submit', function (event) {
     usernameArr[0] = usernameArr[0].toUpperCase()
     username = usernameArr.join('')
 
-    commentCounter++
-
-    showCommentsAmount()
-
-    commentField.insertAdjacentHTML(
-        'beforeend',
-        `<div class="js-div-comment" >
-        <div class="js-div-name">
-        <p><strong>${username}:</strong></p>
-        <div class="functions">
-        <button class="like-btn">
-        <img class="like-icon" src="./img/not-like.png" alt="like">
-        </button>
-        <button class="delete-btn" >
-        <img class="delete-btn_img"  src="./img/delete.png" alt="delete">
-        </button>
-        </div>
-        </div>
-        <div class="js-div-body">
-        <p>${commentBody}</p>
-        </div>
-        <p class="js-date"><em>${timeConverter(Date.now())}</em></p>
-        </div>`
-    )
+    fetch('http://127.0.0.1:8080/api/comment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({
+            username,
+            content,
+            datetime: Date.now(),
+        }),
+    })
+    // showComments()
 })
 
 commentField.addEventListener('click', function (event) {
@@ -88,9 +105,10 @@ commentField.addEventListener('click', function (event) {
 })
 
 confirmDeleteBtn.addEventListener('click', function () {
-    commentToDelete.remove()
-    commentCounter--
-    showCommentsAmount()
+    fetch(`http://127.0.0.1:8080/api/comment/${commentToDelete.id}`, {
+        method: 'DELETE',
+    })
+
     modal.style.display = 'none'
 })
 
