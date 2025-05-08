@@ -22,7 +22,7 @@ const showComments = async () => {
     const comments = await response.json()
 
     comments.forEach((comment) => {
-        let newComment = `<div class="js-div-comment" id="${comment.id}" >
+        let formedComment = `<div class="js-div-comment" id="${comment.id}" >
         <div class="js-div-name">
         <p><strong>${comment.username}:</strong></p>
         <div class="functions">
@@ -40,13 +40,17 @@ const showComments = async () => {
         <p class="js-date"><em>${timeConverter(comment.datetime)}</em></p>
         </div>`
 
-        commentField.insertAdjacentHTML('beforeend', newComment)
+        commentField.insertAdjacentHTML('beforeend', formedComment)
     })
+
+    commentCounter = comments.length
+
+    showCommentsAmount()
 }
 
 showComments()
 
-commentForm.addEventListener('submit', function (event) {
+commentForm.addEventListener('submit', async function (event) {
     event.preventDefault()
     let username = document.getElementById('comment-name').value
     let content = document.getElementById('comment-body').value
@@ -94,7 +98,36 @@ commentForm.addEventListener('submit', function (event) {
             datetime: Date.now(),
         }),
     })
-    // showComments()
+
+    const response = await fetch('http://127.0.0.1:8080/api/comments')
+    const comments = await response.json()
+
+    let newComment = `<div class="js-div-comment" id="${
+        comments[comments.length - 1].id
+    }" >
+        <div class="js-div-name">
+        <p><strong>${comments[comments.length - 1].username}:</strong></p>
+        <div class="functions">
+        <button class="like-btn">
+        <img class="like-icon" src="./img/not-like.png" alt="like">
+        </button>
+        <button class="delete-btn" >
+        <img class="delete-btn_img"  src="./img/delete.png" alt="delete">
+        </button>
+        </div>
+        </div>
+        <div class="js-div-body">
+        <p>${comments[comments.length - 1].content}</p>
+        </div>
+        <p class="js-date"><em>${timeConverter(
+            comments[comments.length - 1].datetime
+        )}</em></p>
+        </div>`
+
+    commentField.insertAdjacentHTML('beforeend', newComment)
+
+    commentCounter++
+    showCommentsAmount()
 })
 
 commentField.addEventListener('click', function (event) {
@@ -108,6 +141,10 @@ confirmDeleteBtn.addEventListener('click', function () {
     fetch(`http://127.0.0.1:8080/api/comment/${commentToDelete.id}`, {
         method: 'DELETE',
     })
+
+    commentToDelete.remove()
+    commentCounter--
+    showCommentsAmount()
 
     modal.style.display = 'none'
 })
