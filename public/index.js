@@ -50,7 +50,7 @@ const showComments = async () => {
 
 showComments()
 
-commentForm.addEventListener('submit', async function (event) {
+commentForm.addEventListener('submit', async function addNewComment(event) {
     event.preventDefault()
     let username = document.getElementById('comment-name').value
     let content = document.getElementById('comment-body').value
@@ -99,14 +99,12 @@ commentForm.addEventListener('submit', async function (event) {
         }),
     })
 
-    const response = await fetch('http://127.0.0.1:8080/api/comments')
-    const comments = await response.json()
+    const response = await fetch('http://127.0.0.1:8080/api/comment')
+    const comment = await response.json()
 
-    let newComment = `<div class="js-div-comment" id="${
-        comments[comments.length - 1].id
-    }" >
+    let newComment = `<div class="js-div-comment" id="${comment.id}" >
         <div class="js-div-name">
-        <p><strong>${comments[comments.length - 1].username}:</strong></p>
+        <p><strong>${comment.username}:</strong></p>
         <div class="functions">
         <button class="like-btn">
         <img class="like-icon" src="./img/not-like.png" alt="like">
@@ -117,14 +115,12 @@ commentForm.addEventListener('submit', async function (event) {
         </div>
         </div>
         <div class="js-div-body">
-        <p>${comments[comments.length - 1].content}</p>
+        <p>${comment.content}</p>
         </div>
-        <p class="js-date"><em>${timeConverter(
-            comments[comments.length - 1].datetime
-        )}</em></p>
+        <p class="js-date"><em>${timeConverter(comment.datetime)}</em></p>
         </div>`
 
-    commentField.insertAdjacentHTML('beforeend', newComment)
+    commentField.insertAdjacentHTML('afterBegin', newComment)
 
     commentCounter++
     showCommentsAmount()
@@ -141,7 +137,7 @@ confirmDeleteBtn.addEventListener('click', function () {
     fetch(`http://127.0.0.1:8080/api/comment/${commentToDelete.id}`, {
         method: 'DELETE',
     })
-
+    console.log('выполнили запрос к БД')
     commentToDelete.remove()
     commentCounter--
     showCommentsAmount()

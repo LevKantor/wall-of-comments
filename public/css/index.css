@@ -109,13 +109,21 @@ h6 {
     align-items: center;
 }
 
+.comments {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    border-top: 1px solid black;
+    padding-top: 20px;
+}
+
 .comments-field {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
+    width: 100%;
     padding-top: 20px;
-    border-top: 1px solid black;
-    width: 80%;
 }
 
 .js-div-comment {
