@@ -2,27 +2,44 @@ import commentService from '../service/comment.service.js'
 
 class CommentController {
     async getAllComments(req, res) {
-        const comments = await commentService.getAllComments({
-            order: [['datetime', 'DESC']],
-        })
-        res.json(comments)
+        try {
+            const comments = await commentService.getAllComments({
+                order: [['datetime', 'DESC']],
+            })
+            res.json(comments)
+        } catch (e) {
+            res.status(500).json(e)
+        }
     }
     async getLastComment(req, res) {
-        const comment = await commentService.getLastComment({
-            order: [['datetime', 'DESC']],
-        })
-        res.json(comment)
+        try {
+            const comment = await commentService.getLastComment({
+                order: [['datetime', 'DESC']],
+            })
+            res.json(comment)
+        } catch (e) {
+            res.status(500).json(e)
+        }
     }
     async createComment(req, res) {
-        const comment = req.body
-        const newComment = await commentService.createComment(comment)
-        res.json(newComment)
+        try {
+            const comment = req.body
+            const newComment = await commentService.createComment(comment)
+            res.json(newComment)
+        } catch (e) {
+            res.status(500).json(e)
+        }
     }
     async deleteComment(req, res) {
-        const id = req.params.id
-        const comment = await commentService.deleteComment({ where: { id } })
-        res.json(comment)
-        res.send('Comment was deleted')
+        try {
+            const id = req.params.id
+            await commentService.deleteComment({
+                where: { id },
+            })
+            res.send('Comment was deleted')
+        } catch (e) {
+            res.status(500).json(e)
+        }
     }
 }
 

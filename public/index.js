@@ -7,6 +7,7 @@ const cancelDeleteBtn = document.getElementById('cancelDelete')
 
 let commentCounter = 0
 let commentToDelete = null
+let comments
 
 const showCommentsAmount = () => {
     if (commentCounter > 0) {
@@ -18,8 +19,14 @@ const showCommentsAmount = () => {
 }
 
 const showComments = async () => {
+    let comments
+
     const response = await fetch('http://127.0.0.1:8080/api/comments')
-    const comments = await response.json()
+    if (response.status === 500) {
+        return console.log(e)
+    } else {
+        comments = await response.json()
+    }
 
     comments.forEach((comment) => {
         let formedComment = `<div class="js-div-comment" id="${comment.id}" >
@@ -100,7 +107,13 @@ commentForm.addEventListener('submit', async function addNewComment(event) {
     })
 
     const response = await fetch('http://127.0.0.1:8080/api/comment')
-    const comment = await response.json()
+    let comment
+
+    if (response.status === 500) {
+        return console.log(e)
+    } else {
+        comment = await response.json()
+    }
 
     let newComment = `<div class="js-div-comment" id="${comment.id}" >
         <div class="js-div-name">
@@ -133,11 +146,18 @@ commentField.addEventListener('click', function (event) {
     }
 })
 
-confirmDeleteBtn.addEventListener('click', function () {
-    fetch(`http://127.0.0.1:8080/api/comment/${commentToDelete.id}`, {
-        method: 'DELETE',
-    })
-    console.log('выполнили запрос к БД')
+confirmDeleteBtn.addEventListener('click', async function deleteComment() {
+    const response = await fetch(
+        `http://127.0.0.1:8080/api/comment/${commentToDelete.id}`,
+        {
+            method: 'DELETE',
+        }
+    )
+
+    if (response.status === 500) {
+        return console.log(e)
+    }
+
     commentToDelete.remove()
     commentCounter--
     showCommentsAmount()
