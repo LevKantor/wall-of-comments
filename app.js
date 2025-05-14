@@ -14,4 +14,3 @@ app.use('/api', commentRouter)
 
 // await sequelize.sync({ alter: true })
 app.listen(PORT, () => console.log(`Server was started on port ${PORT}`))
-console.log('Текущая DATABASE_URL:', process.env.DATABASE_URL)
