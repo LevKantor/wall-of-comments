@@ -21,7 +21,9 @@ const showCommentsAmount = () => {
 const showComments = async () => {
     let comments
 
-    const response = await fetch('http://127.0.0.1:8080/api/comments')
+    const response = await fetch(
+        'https://wall-of-comments-production.up.railway.app/api/comments'
+    )
     if (response.status === 500) {
         return console.log('Ошибка сервера!')
     } else {
@@ -94,7 +96,7 @@ commentForm.addEventListener('submit', async function addNewComment(event) {
     usernameArr[0] = usernameArr[0].toUpperCase()
     username = usernameArr.join('')
 
-    fetch('http://127.0.0.1:8080/api/comment', {
+    fetch('https://wall-of-comments-production.up.railway.app/api/comment', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -106,7 +108,9 @@ commentForm.addEventListener('submit', async function addNewComment(event) {
         }),
     })
 
-    const response = await fetch('http://127.0.0.1:8080/api/comment')
+    const response = await fetch(
+        'https://wall-of-comments-production.up.railway.app/api/comment'
+    )
     let comment
 
     if (response.status === 500) {
@@ -148,7 +152,7 @@ commentField.addEventListener('click', function (event) {
 
 confirmDeleteBtn.addEventListener('click', async function deleteComment() {
     const response = await fetch(
-        `http://127.0.0.1:8080/api/comment/${commentToDelete.id}`,
+        `https://wall-of-comments-production.up.railway.app/api/comment/${commentToDelete.id}`,
         {
             method: 'DELETE',
         }
