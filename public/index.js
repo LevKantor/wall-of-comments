@@ -23,7 +23,7 @@ const showComments = async () => {
 
     const response = await fetch('http://127.0.0.1:8080/api/comments')
     if (response.status === 500) {
-        return console.log(e)
+        return console.log('Ошибка сервера!')
     } else {
         comments = await response.json()
     }
@@ -110,7 +110,7 @@ commentForm.addEventListener('submit', async function addNewComment(event) {
     let comment
 
     if (response.status === 500) {
-        return console.log(e)
+        return console.log('Ошибка сервера!')
     } else {
         comment = await response.json()
     }
@@ -155,7 +155,7 @@ confirmDeleteBtn.addEventListener('click', async function deleteComment() {
     )
 
     if (response.status === 500) {
-        return console.log(e)
+        return console.log('Ошибка сервера!')
     }
 
     commentToDelete.remove()
