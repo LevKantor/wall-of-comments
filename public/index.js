@@ -96,27 +96,35 @@ commentForm.addEventListener('submit', async function addNewComment(event) {
     usernameArr[0] = usernameArr[0].toUpperCase()
     username = usernameArr.join('')
 
-    fetch('https://wall-of-comments-production.up.railway.app/api/comment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify({
-            username,
-            content,
-            datetime: Date.now(),
-        }),
-    })
+    const responsePost = await fetch(
+        'https://wall-of-comments-production.up.railway.app/api/comment',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify({
+                username,
+                content,
+                datetime: Date.now(),
+            }),
+        }
+    )
 
-    const response = await fetch(
+    if (responsePost.status === 500) {
+        return console.log('Ошибка сервера!')
+    }
+
+    const responseGet = await fetch(
         'https://wall-of-comments-production.up.railway.app/api/comment'
     )
+
     let comment
 
-    if (response.status === 500) {
+    if (responseGet.status === 500) {
         return console.log('Ошибка сервера!')
     } else {
-        comment = await response.json()
+        comment = await responseGet.json()
     }
 
     let newComment = `<div class="js-div-comment" id="${comment.id}" >
