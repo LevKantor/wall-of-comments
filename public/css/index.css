@@ -351,13 +351,12 @@ h6 {
     }
 
     .form {
-        gap: 15px;
+        gap: 25px;
         width: 100%;
     }
 
     .form__group {
         flex-direction: column;
-        gap: 15px;
         align-items: stretch;
     }
 
